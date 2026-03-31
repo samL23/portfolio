@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samuel Lavictoire — Mechanical Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────── */
+    :root {
+      --bg:        #0b0c0f;
+      --surface:   #13151a;
+      --surface2:  #1c1f27;
+      --border:    #242730;
+      --accent:    #4af0c4;
+      --accent2:   #4a90f0;
+      --text:      #e8eaf0;
+      --muted:     #737887;
+      --heading:   #f5f6fa;
+      --ff-display: 'DM Serif Display', Georgia, serif;
+      --ff-sans:   'Syne', sans-serif;
+      --ff-mono:   'DM Mono', monospace;
+      --ease:      cubic-bezier(.22,1,.36,1);
+    }
+
+    /* ─── RESET ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--ff-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+
+    /* ─── NOISE OVERLAY ──────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ─── SCROLLBAR ──────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* ─── NAV ────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(11,12,15,0.75);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--ff-mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+    .nav-links a {
+      font-family: var(--ff-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      font-family: var(--ff-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.45rem 1.1rem;
+      border-radius: 2px;
+      transition: background 0.25s, color 0.25s;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+    /* ─── SECTIONS ───────────────────────────────────── */
+    section { padding: 7rem 4rem; max-width: 1200px; margin: 0 auto; }
+
+    /* ─── HERO ───────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      max-width: 100%;
+      padding: 0 4rem;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.35;
+      mask-image: radial-gradient(ellipse 70% 80% at 60% 50%, black 30%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(74,240,196,0.07) 0%, transparent 70%);
+      top: 50%; left: 55%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 4rem;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 5rem;
+    }
+    .hero-tag {
+      font-family: var(--ff-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      animation: fadeUp 0.7s var(--ease) both;
+    }
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 2rem; height: 1px;
+      background: var(--accent);
+    }
+    .hero-name {
+      font-family: var(--ff-display);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      color: var(--heading);
+      line-height: 1.05;
+      margin-bottom: 0.5rem;
+      animation: fadeUp 0.7s 0.1s var(--ease) both;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-title {
+      font-family: var(--ff-mono);
+      font-size: 0.9rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.7s 0.18s var(--ease) both;
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text);
+      max-width: 520px;
+      line-height: 1.75;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.7s 0.25s var(--ease) both;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      animation: fadeUp 0.7s 0.32s var(--ease) both;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      font-family: var(--ff-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      padding: 0.8rem 1.8rem;
+      border-radius: 2px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--ff-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      padding: 0.8rem 1.8rem;
+      border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* Photo card */
+    .hero-photo-wrap {
+      animation: fadeUp 0.7s 0.2s var(--ease) both;
+      flex-shrink: 0;
+    }
+    .hero-photo {
+      width: 280px; height: 340px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      display: block;
+      background: var(--surface2);
+      position: relative;
+    }
+    .hero-photo-frame {
+      position: relative;
+      display: inline-block;
+    }
+    .hero-photo-frame::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* Scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeUp 1s 0.6s var(--ease) both;
+    }
+    .hero-scroll span {
+      font-family: var(--ff-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      writing-mode: vertical-lr;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 3rem;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scrollPulse 1.8s ease-in-out infinite;
+    }
+
+    /* ─── SECTION LABELS ─────────────────────────────── */
+    .section-label {
+      font-family: var(--ff-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 80px;
+    }
+    .section-heading {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--heading);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 4rem;
+    }
+
+    /* ─── ABOUT ──────────────────────────────────────── */
+    #about { border-top: 1px solid var(--border); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-text p { color: var(--text); margin-bottom: 1rem; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .fact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .fact-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .fact-num {
+      font-family: var(--ff-display);
+      font-size: 2.2rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .fact-label {
+      font-family: var(--ff-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    /* ─── SKILLS ─────────────────────────────────────── */
+    #skills { border-top: 1px solid var(--border); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.75rem;
+      transition: border-color 0.25s;
+    }
+    .skill-group:hover { border-color: var(--accent2); }
+    .skill-group-title {
+      font-family: var(--ff-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--accent2);
+      margin-bottom: 1.25rem;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-tag {
+      font-family: var(--ff-mono);
+      font-size: 0.72rem;
+      padding: 0.3rem 0.75rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--text);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── EXPERIENCE ─────────────────────────────────── */
+    #experience { border-top: 1px solid var(--border); }
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0.5rem; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), var(--border));
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateX(-16px);
+      transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+    }
+    .timeline-item.visible { opacity: 1; transform: none; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.375rem;
+      top: 0.45rem;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(74,240,196,0.15);
+    }
+    .timeline-date {
+      font-family: var(--ff-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+    .timeline-role {
+      font-family: var(--ff-sans);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 0.2rem;
+    }
+    .timeline-company {
+      font-family: var(--ff-mono);
+      font-size: 0.82rem;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .timeline-desc {
+      color: var(--muted);
+      font-size: 0.93rem;
+      max-width: 580px;
+    }
+
+    /* ─── PROJECTS ───────────────────────────────────── */
+    #projects { border-top: 1px solid var(--border); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.25s, transform 0.25s;
+      cursor: default;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-card.featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    .project-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .project-label {
+      font-family: var(--ff-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+    }
+    .project-title {
+      font-family: var(--ff-display);
+      font-size: 1.35rem;
+      color: var(--heading);
+      line-height: 1.2;
+    }
+    .project-desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+    .project-tag {
+      font-family: var(--ff-mono);
+      font-size: 0.68rem;
+      padding: 0.2rem 0.6rem;
+      background: rgba(74,240,196,0.06);
+      border: 1px solid rgba(74,240,196,0.2);
+      color: var(--accent);
+      border-radius: 2px;
+      letter-spacing: 0.06em;
+    }
+    .project-visual {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(74,240,196,0.03) 10px,
+        rgba(74,240,196,0.03) 20px
+      );
+    }
+
+    /* ─── CONTACT ────────────────────────────────────── */
+    #contact {
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    #contact .section-label { justify-content: center; }
+    #contact .section-label::after { display: none; }
+    #contact .section-sub { margin-left: auto; margin-right: auto; }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--ff-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.7rem 1.4rem;
+      border-radius: 2px;
+      transition: color 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .contact-link:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+    .contact-link svg { width: 16px; height: 16px; }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer p {
+      font-family: var(--ff-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    footer a { color: var(--accent); }
+
+    /* ─── ANIMATIONS ─────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; }
+      50%       { opacity: 1; }
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1.1rem 2rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 2rem; }
+      #hero { padding: 0 2rem; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-photo-wrap { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+    @media (max-width: 560px) {
+      .about-facts { grid-template-columns: 1fr 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .contact-links { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">SL /</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="mailto:samuel.lavictoire@gmail.com" class="nav-cta">Get in touch</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="hero-tag">Available for full-time roles · May 2026</p>
+        <h1 class="hero-name">Samuel<br><em>Lavictoire</em></h1>
+        <p class="hero-title">MECHANICAL ENGINEER &amp; COMPUTING TECHNOLOGY · EN / FR</p>
+        <p class="hero-desc">
+          Graduating engineer from the University of Ottawa with experience
+          in space robotics, aerospace structures, heavy civil infrastructure,
+          and geotechnical fieldwork. I build things that work in the real world.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn-primary">View Work</a>
+          <a href="https://samuellavictoire.com" target="_blank" class="btn-outline">Portfolio Site ↗</a>
+        </div>
+      </div>
+      <div class="hero-photo-wrap">
+        <div class="hero-photo-frame">
+          <!--
+            PHOTO: Replace the src below with your actual photo path.
+            Recommended: a professional headshot, 280×340px or similar ratio.
+            Example: <img src="assets/photo.jpg" ...>
+          -->
+          <div class="hero-photo" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(74,240,196,0.3)" stroke-width="1.5">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+            <span style="font-family:var(--ff-mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;">YOUR PHOTO HERE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span>SCROLL</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">01 — ABOUT</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <h2 class="section-heading">Engineer by training,<br><em>builder</em> by instinct.</h2>
+        <p>
+          I'm a Mechanical Engineering and Computing Technology student at the University of Ottawa,
+          graduating May 2026. My work spans a wide range: chassis and suspension design for a Mars rover,
+          heavy civil infrastructure co-ops, geotechnical fieldwork, and a CubeSat capstone project.
+        </p>
+        <p>
+          I'm drawn to problems that live at the intersection of precision engineering and systems thinking —
+          whether that's designing a non-pneumatic wheel for rocky terrain, running FEA on structural assemblies,
+          or writing Python automation tools to accelerate engineering workflows.
+        </p>
+        <p>
+          Fully bilingual in English and French, I'm actively seeking full-time roles in aerospace,
+          space robotics, defence, heavy infrastructure, or hydropower across Canada.
+        </p>
+      </div>
+      <div class="about-facts">
+        <div class="fact-card">
+          <div class="fact-num">4+</div>
+          <div class="fact-label">CO-OP TERMS</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-num">EN/FR</div>
+          <div class="fact-label">BILINGUAL</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-num">5+</div>
+          <div class="fact-label">YEARS SOLIDWORKS</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-num">2026</div>
+          <div class="fact-label">GRADUATING MAY</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">02 — SKILLS</div>
+    <h2 class="section-heading">Tools &amp; technologies</h2>
+    <p class="section-sub">A cross-disciplinary toolkit built across coursework, co-ops, and extracurricular engineering.</p>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">CAD &amp; DESIGN</div>
+        <div class="skill-tags">
+          <span class="skill-tag">SolidWorks</span>
+          <span class="skill-tag">AutoCAD</span>
+          <span class="skill-tag">GD&amp;T</span>
+          <span class="skill-tag">DFM</span>
+          <span class="skill-tag">Engineering Drawings</span>
+          <span class="skill-tag">3D Printing / FDM</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">SIMULATION &amp; ANALYSIS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ANSYS FEA</span>
+          <span class="skill-tag">ANSYS CFD</span>
+          <span class="skill-tag">Meshing</span>
+          <span class="skill-tag">Stress Analysis</span>
+          <span class="skill-tag">Structural Validation</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">PROGRAMMING</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">QGIS</span>
+          <span class="skill-tag">Data Automation</span>
+          <span class="skill-tag">Plugin Development</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">MANUFACTURING</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Composites Layup</span>
+          <span class="skill-tag">FDM 3D Printing</span>
+          <span class="skill-tag">Prototyping</span>
+          <span class="skill-tag">Assembly Planning</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">CIVIL &amp; GEOTECHNICAL</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Field Investigation</span>
+          <span class="skill-tag">Technical Reporting</span>
+          <span class="skill-tag">Infrastructure Design</span>
+          <span class="skill-tag">Site Assessment</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">SOFT SKILLS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Team Leadership</span>
+          <span class="skill-tag">Technical Writing</span>
+          <span class="skill-tag">Bilingual (EN/FR)</span>
+          <span class="skill-tag">Cross-functional Collab</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">03 — EXPERIENCE</div>
+    <h2 class="section-heading">Where I've worked</h2>
+    <p class="section-sub">Co-op placements and engineering leadership spanning four sectors.</p>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-date">2023 — 2025 · Ottawa, ON</div>
+        <div class="timeline-role">Mechanical Co-lead</div>
+        <div class="timeline-company">University of Ottawa Mars Rover Team</div>
+        <p class="timeline-desc">
+          Led chassis, suspension, and drivetrain design for competition rover. Ran ANSYS FEA on critical
+          structural components, authored engineering drawings, and directed validation test planning.
+          Spearheaded development of a non-pneumatic wheel from concept through fabrication.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2024 · Ottawa, ON</div>
+        <div class="timeline-role">Junior Engineer — Heavy Civil</div>
+        <div class="timeline-company">CIMA+</div>
+        <p class="timeline-desc">
+          Contributed to heavy civil and infrastructure projects on the Ottawa team. Produced deliverables
+          for municipal and transportation engineering files, coordinated across disciplines, and developed
+          technical documentation.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2023 · Ottawa, ON</div>
+        <div class="timeline-role">Geotechnical Field Technician</div>
+        <div class="timeline-company">Paterson Group</div>
+        <p class="timeline-desc">
+          Conducted geotechnical field investigations and authored technical memos. Independently
+          designed and deployed a Python/QGIS automation plugin to streamline internal reporting workflows,
+          then trained staff on its use.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2022 · Ottawa, ON</div>
+        <div class="timeline-role">Engineering Co-op</div>
+        <div class="timeline-company">Natural Resources Canada / Environment and Climate Change Canada</div>
+        <p class="timeline-desc">
+          Supported research and technical projects within federal government mandates in natural
+          resources and environmental engineering.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">04 — PROJECTS</div>
+    <h2 class="section-heading">Selected work</h2>
+    <p class="section-sub">A mix of academic, competition, and personal engineering projects.</p>
+    <div class="projects-grid">
+
+      <div class="project-card featured">
+        <div>
+          <div class="project-label">FEATURED · ROVER COMPETITION</div>
+          <h3 class="project-title">Mars Rover — Chassis &amp; Suspension System</h3>
+          <p class="project-desc">
+            End-to-end mechanical design of a six-wheeled rover chassis for international competition.
+            Scope included rocker-bogie suspension geometry, structural FEA under worst-case loading,
+            GD&T engineering drawings, and a novel non-pneumatic wheel designed for rocky Martian terrain.
+            Led a sub-team of four through design, fabrication, and testing.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">SolidWorks</span>
+            <span class="project-tag">ANSYS FEA</span>
+            <span class="project-tag">GD&amp;T</span>
+            <span class="project-tag">Composites</span>
+            <span class="project-tag">Team Leadership</span>
+          </div>
+        </div>
+        <div class="project-visual">ROVER CHASSIS IMAGE</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-label">CAPSTONE · SPACE SYSTEMS</div>
+        <h3 class="project-title">CubeSat Design</h3>
+        <p class="project-desc">
+          Senior capstone project developing a CubeSat platform, covering structural design,
+          thermal analysis, and systems integration for a small satellite mission profile.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Satellite Systems</span>
+          <span class="project-tag">Thermal Analysis</span>
+          <span class="project-tag">SolidWorks</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-label">CO-OP · AUTOMATION</div>
+        <h3 class="project-title">QGIS Automation Plugin</h3>
+        <p class="project-desc">
+          Designed and deployed a Python plugin for QGIS to automate geotechnical reporting
+          workflows at Paterson Group. Reduced manual data handling time and trained
+          the engineering team on its use.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">QGIS</span>
+          <span class="project-tag">Automation</span>
+          <span class="project-tag">GIS</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-label">COURSEWORK · CFD</div>
+        <h3 class="project-title">CFD Solver Implementation</h3>
+        <p class="project-desc">
+          Implemented computational fluid dynamics methods in C++ as part of advanced coursework,
+          covering meshing strategies, spatial discretization, and time-marching schemes.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">C++</span>
+          <span class="project-tag">CFD</span>
+          <span class="project-tag">ANSYS</span>
+          <span class="project-tag">Numerical Methods</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">05 — CONTACT</div>
+    <h2 class="section-heading">Let's work together</h2>
+    <p class="section-sub">
+      Open to full-time roles in aerospace, space robotics, defence, infrastructure, and hydropower across Canada.
+      Bilingual and available from May 2026.
+    </p>
+    <a href="mailto:samuel.lavictoire@gmail.com" class="btn-primary" style="display:inline-block;margin-top:1rem;">
+      samuel.lavictoire@gmail.com
+    </a>
+    <div class="contact-links">
+      <a href="https://linkedin.com/in/samuel-lavictoire" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/samuel-lavictoire" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+      <a href="https://samuellavictoire.com" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        samuellavictoire.com
+      </a>
+      <a href="assets/Samuel_Lavictoire_Resume.pdf" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+        Resume PDF
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Samuel Lavictoire · Built from scratch · Hosted on GitHub Pages</p>
+    <p>Ottawa, ON · <a href="mailto:samuel.lavictoire@gmail.com">samuel.lavictoire@gmail.com</a></p>
+  </footer>
+
+  <script>
+    // Intersection observer for timeline animations
+    const items = document.querySelectorAll('.timeline-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.15 });
+    items.forEach(el => observer.observe(el));
+
+    // Nav highlight on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const ioNav = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => {
+            a.style.color = a.getAttribute('href') === '#' + e.target.id
+              ? 'var(--accent)' : '';
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => ioNav.observe(s));
+  </script>
+</body>
+</html>
