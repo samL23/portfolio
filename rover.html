@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mars Rover Project — Samuel Lavictoire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ─── ROVER PAGE EXTRAS ──────────────────────────── */
+
+    /* Hero banner */
+    .rover-hero {
+      min-height: 52vh;
+      max-width: 100%;
+      padding: 0 4rem;
+      display: flex;
+      align-items: flex-end;
+      position: relative;
+      overflow: hidden;
+      padding-bottom: 4rem;
+    }
+    .rover-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.3;
+      mask-image: radial-gradient(ellipse 80% 90% at 40% 60%, black 20%, transparent 100%);
+    }
+    .rover-hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(74,240,196,0.06) 0%, transparent 70%);
+      top: 30%; left: 30%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .rover-hero-inner {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 8rem;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--ff-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      transition: color 0.2s;
+      animation: fadeUp 0.5s var(--ease) both;
+    }
+    .back-link:hover { color: var(--accent); }
+    .back-link svg { width: 14px; height: 14px; }
+    .rover-hero-label {
+      font-family: var(--ff-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      animation: fadeUp 0.6s 0.05s var(--ease) both;
+    }
+    .rover-hero-label::before {
+      content: '';
+      display: block;
+      width: 2rem; height: 1px;
+      background: var(--accent);
+    }
+    .rover-hero-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      color: var(--heading);
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s 0.1s var(--ease) both;
+    }
+    .rover-hero-title em { font-style: italic; color: var(--accent); }
+    .rover-hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      animation: fadeUp 0.6s 0.15s var(--ease) both;
+    }
+    .rover-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .rover-meta-label {
+      font-family: var(--ff-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+    .rover-meta-value {
+      font-family: var(--ff-mono);
+      font-size: 0.82rem;
+      color: var(--text);
+    }
+
+    /* Overview strip */
+    .rover-overview {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 3rem 4rem;
+      max-width: 100%;
+      background: var(--surface);
+    }
+    .rover-overview-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .rover-overview h2 {
+      font-family: var(--ff-display);
+      font-size: 1.6rem;
+      color: var(--heading);
+      line-height: 1.2;
+    }
+    .rover-overview p {
+      color: var(--muted);
+      font-size: 0.97rem;
+      line-height: 1.8;
+    }
+
+    /* Sub-project cards section */
+    .rover-projects-section {
+      padding: 5rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .rover-projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    /* Each sub-project card */
+    .rp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    .rp-card.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .rp-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .rp-card.reverse { grid-template-columns: 1fr 1fr; }
+    .rp-card.reverse .rp-image { order: 2; }
+    .rp-card.reverse .rp-content { order: 1; }
+
+    .rp-image {
+      position: relative;
+      overflow: hidden;
+      min-height: 320px;
+      background: var(--surface2);
+    }
+    .rp-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s var(--ease);
+    }
+    .rp-card:hover .rp-image img { transform: scale(1.04); }
+    .rp-image-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.75rem;
+      background: var(--surface2);
+      position: relative;
+      overflow: hidden;
+    }
+    .rp-image-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 12px,
+        rgba(74,240,196,0.03) 12px,
+        rgba(74,240,196,0.03) 24px
+      );
+    }
+    .rp-image-placeholder span {
+      font-family: var(--ff-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      position: relative;
+    }
+
+    .rp-content {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .rp-number {
+      font-family: var(--ff-display);
+      font-size: 3.5rem;
+      color: rgba(74,240,196,0.08);
+      line-height: 1;
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      pointer-events: none;
+      user-select: none;
+    }
+    .rp-content-inner { position: relative; }
+    .rp-label {
+      font-family: var(--ff-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+    }
+    .rp-title {
+      font-family: var(--ff-display);
+      font-size: 1.6rem;
+      color: var(--heading);
+      line-height: 1.15;
+    }
+    .rp-desc {
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.8;
+    }
+    .rp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+    .rp-tag {
+      font-family: var(--ff-mono);
+      font-size: 0.68rem;
+      padding: 0.2rem 0.6rem;
+      background: rgba(74,240,196,0.06);
+      border: 1px solid rgba(74,240,196,0.2);
+      color: var(--accent);
+      border-radius: 2px;
+      letter-spacing: 0.06em;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .rover-hero { padding: 0 2rem 3rem; }
+      .rover-hero-inner { padding-top: 6rem; }
+      .rover-overview { padding: 2.5rem 2rem; }
+      .rover-overview-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+      .rover-projects-section { padding: 3.5rem 2rem; }
+      .rp-card { grid-template-columns: 1fr; }
+      .rp-card.reverse .rp-image { order: 0; }
+      .rp-card.reverse .rp-content { order: 0; }
+      .rp-image { min-height: 220px; }
+      .rp-image-placeholder { min-height: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">SL /</div>
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <a href="mailto:samuel.lavictoire@gmail.com" class="nav-cta">Get in touch</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="rover-hero">
+    <div class="rover-hero-bg"></div>
+    <div class="rover-hero-glow"></div>
+    <div class="rover-hero-inner">
+      <a href="index.html#projects" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15,18 9,12 15,6"/>
+        </svg>
+        BACK TO PROJECTS
+      </a>
+      <p class="rover-hero-label">FEATURED PROJECT · ROVER COMPETITION</p>
+      <h1 class="rover-hero-title">Mars Rover —<br><em>Mechanical Systems</em></h1>
+      <div class="rover-hero-meta">
+        <div class="rover-meta-item">
+          <span class="rover-meta-label">ROLE</span>
+          <span class="rover-meta-value">Mechanical Co-lead</span>
+        </div>
+        <div class="rover-meta-item">
+          <span class="rover-meta-label">TEAM</span>
+          <span class="rover-meta-value">uOttawa Mars Rover</span>
+        </div>
+        <div class="rover-meta-item">
+          <span class="rover-meta-label">PERIOD</span>
+          <span class="rover-meta-value">2023 — 2025</span>
+        </div>
+        <div class="rover-meta-item">
+          <span class="rover-meta-label">COMPETITION</span>
+          <span class="rover-meta-value">University Rover Challenge</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW STRIP -->
+  <div class="rover-overview">
+    <div class="rover-overview-inner">
+      <h2>Project<br>Overview</h2>
+      <p>
+        As Mechanical Co-lead, I was responsible for the end-to-end design of the rover's chassis,
+        suspension, and drivetrain systems. The work spanned concept development, ANSYS FEA validation,
+        GD&T engineering drawings, composite fabrication, and competition testing. Below are the individual
+        sub-projects that made up the mechanical scope of this build.
+      </p>
+    </div>
+  </div>
+
+  <!-- SUB-PROJECT CARDS -->
+  <div class="rover-projects-section">
+    <div class="section-label">SUB-PROJECTS</div>
+    <h2 class="section-heading" style="margin-bottom:3rem;">Mechanical work,<br><em>broken down.</em></h2>
+
+    <div class="rover-projects-grid">
+
+      <!-- 1. Chassis Design -->
+      <div class="rp-card">
+        <div class="rp-image">
+          <!--
+            Replace with: <img src="assets/chassis.jpg" alt="Rover Chassis" />
+          -->
+          <div class="rp-image-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(74,240,196,0.25)" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+            <span>CHASSIS IMAGE</span>
+          </div>
+        </div>
+        <div class="rp-content">
+          <div class="rp-content-inner">
+            <div class="rp-label">01 · STRUCTURAL DESIGN</div>
+            <h3 class="rp-title">Chassis Design &amp; FEA</h3>
+            <p class="rp-desc">
+              Designed the main rover chassis from scratch in SolidWorks, optimizing for stiffness-to-weight
+              ratio under competition loading conditions. Ran ANSYS static structural analysis to validate
+              weld joints and frame members under worst-case terrain impacts. Iterated the design through
+              three major revisions based on simulation results and fabrication feedback.
+            </p>
+            <div class="rp-tags">
+              <span class="rp-tag">SolidWorks</span>
+              <span class="rp-tag">ANSYS FEA</span>
+              <span class="rp-tag">Structural Analysis</span>
+              <span class="rp-tag">Welded Frames</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Suspension (reversed) -->
+      <div class="rp-card reverse">
+        <div class="rp-image">
+          <!--
+            Replace with: <img src="assets/new_suspension_design_1.jpg" alt="Suspension System" />
+          -->
+          <div class="rp-image-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(74,240,196,0.25)" stroke-width="1.5">
+              <circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+            <span>SUSPENSION IMAGE</span>
+          </div>
+        </div>
+        <div class="rp-content">
+          <div class="rp-content-inner">
+            <div class="rp-label">02 · MOBILITY SYSTEM</div>
+            <h3 class="rp-title">Rocker-Bogie Suspension</h3>
+            <p class="rp-desc">
+              Designed and validated a rocker-bogie passive suspension system enabling the rover to traverse
+              obstacles up to twice wheel height without active control. Optimized link geometry for ground
+              clearance and stability on inclined terrain. Produced full GD&T engineering drawings for
+              machined components and sourced hardware for fabrication.
+            </p>
+            <div class="rp-tags">
+              <span class="rp-tag">Mechanism Design</span>
+              <span class="rp-tag">GD&amp;T</span>
+              <span class="rp-tag">SolidWorks</span>
+              <span class="rp-tag">Terrain Analysis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Non-pneumatic wheel -->
+      <div class="rp-card">
+        <div class="rp-image">
+          <!--
+            Replace with: <img src="assets/wheel.jpg" alt="Non-pneumatic Wheel" />
+          -->
+          <div class="rp-image-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(74,240,196,0.25)" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+            <span>WHEEL IMAGE</span>
+          </div>
+        </div>
+        <div class="rp-content">
+          <div class="rp-content-inner">
+            <div class="rp-label">03 · NOVEL COMPONENT</div>
+            <h3 class="rp-title">Non-Pneumatic Wheel</h3>
+            <p class="rp-desc">
+              Led development of a compliant non-pneumatic wheel to eliminate the puncture risk inherent
+              to inflated tires in rocky terrain. Explored lattice spoke geometries in SolidWorks and
+              validated compliance and load-bearing capacity through FEA. Prototyped iterations using
+              FDM 3D printing and composite layup before arriving at the final design.
+            </p>
+            <div class="rp-tags">
+              <span class="rp-tag">Compliant Mechanisms</span>
+              <span class="rp-tag">ANSYS FEA</span>
+              <span class="rp-tag">Composites</span>
+              <span class="rp-tag">FDM Prototyping</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Drivetrain (reversed) -->
+      <div class="rp-card reverse">
+        <div class="rp-image">
+          <!--
+            Replace with: <img src="assets/drivetrain.jpg" alt="Drivetrain" />
+          -->
+          <div class="rp-image-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(74,240,196,0.25)" stroke-width="1.5">
+              <circle cx="5" cy="12" r="3"/><circle cx="19" cy="12" r="3"/><line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            <span>DRIVETRAIN IMAGE</span>
+          </div>
+        </div>
+        <div class="rp-content">
+          <div class="rp-content-inner">
+            <div class="rp-label">04 · POWER TRANSMISSION</div>
+            <h3 class="rp-title">Drivetrain &amp; Motor Mounts</h3>
+            <p class="rp-desc">
+              Designed the drivetrain integration connecting six brushless DC motors to the wheel hubs,
+              including custom motor mounts, gearbox interfaces, and cable management routing. Validated
+              mount stiffness under peak motor torque loading with FEA. Coordinated with the electrical
+              sub-team to ensure thermal clearance and connector accessibility.
+            </p>
+            <div class="rp-tags">
+              <span class="rp-tag">Drivetrain</span>
+              <span class="rp-tag">Motor Integration</span>
+              <span class="rp-tag">ANSYS FEA</span>
+              <span class="rp-tag">DFM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Test planning -->
+      <div class="rp-card">
+        <div class="rp-image">
+          <!--
+            Replace with: <img src="assets/testing.jpg" alt="Validation Testing" />
+          -->
+          <div class="rp-image-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(74,240,196,0.25)" stroke-width="1.5">
+              <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+            </svg>
+            <span>TESTING IMAGE</span>
+          </div>
+        </div>
+        <div class="rp-content">
+          <div class="rp-content-inner">
+            <div class="rp-label">05 · VALIDATION</div>
+            <h3 class="rp-title">Test Planning &amp; Validation</h3>
+            <p class="rp-desc">
+              Authored the mechanical validation test plan covering static load tests, terrain traversal
+              trials, and endurance runs. Defined pass/fail criteria tied to FEA predictions and competition
+              requirements. Led field testing sessions, logged failure modes, and fed findings back into
+              design iterations before final competition submission.
+            </p>
+            <div class="rp-tags">
+              <span class="rp-tag">Test Planning</span>
+              <span class="rp-tag">Validation</span>
+              <span class="rp-tag">Technical Documentation</span>
+              <span class="rp-tag">Team Leadership</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Samuel Lavictoire · <a href="index.html">Back to portfolio</a></p>
+    <p>Ottawa, ON · <a href="mailto:samuel.lavictoire@gmail.com">samuel.lavictoire@gmail.com</a></p>
+  </footer>
+
+  <script>
+    // Animate cards on scroll
+    const cards = document.querySelectorAll('.rp-card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 100);
+        }
+      });
+    }, { threshold: 0.1 });
+    cards.forEach(el => observer.observe(el));
+
+    // Mobile fallback
+    setTimeout(() => {
+      cards.forEach(el => el.classList.add('visible'));
+    }, 800);
+  </script>
+</body>
+</html>
