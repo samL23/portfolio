@@ -1,0 +1,271 @@
+/* ─── ROVER HERO ─────────────────────────────────── */
+.rover-hero {
+  min-height: 52vh;
+  max-width: 100%;
+  padding: 0 4rem 4rem;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  overflow: hidden;
+}
+.rover-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.3;
+  mask-image: radial-gradient(ellipse 80% 90% at 40% 60%, black 20%, transparent 100%);
+}
+.rover-hero-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74,240,196,0.06) 0%, transparent 70%);
+  top: 30%; left: 30%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.rover-hero-inner {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 8rem;
+}
+
+/* ─── BACK LINK ──────────────────────────────────── */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  transition: color 0.2s;
+  animation: fadeUp 0.5s var(--ease) both;
+}
+.back-link:hover { color: var(--accent); }
+.back-link svg { width: 14px; height: 14px; }
+
+/* ─── ROVER HERO TYPOGRAPHY ──────────────────────── */
+.rover-hero-label {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: fadeUp 0.6s 0.05s var(--ease) both;
+}
+.rover-hero-label::before {
+  content: '';
+  display: block;
+  width: 2rem; height: 1px;
+  background: var(--accent);
+}
+.rover-hero-title {
+  font-family: var(--ff-display);
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  color: var(--heading);
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.1s var(--ease) both;
+}
+.rover-hero-title em { font-style: italic; color: var(--accent); }
+
+/* ─── ROVER HERO META ────────────────────────────── */
+.rover-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  animation: fadeUp 0.6s 0.15s var(--ease) both;
+}
+.rover-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.rover-meta-label {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+.rover-meta-value {
+  font-family: var(--ff-mono);
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+/* ─── OVERVIEW STRIP ─────────────────────────────── */
+.rover-overview {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 3rem 4rem;
+  max-width: 100%;
+  background: var(--surface);
+}
+.rover-overview-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  align-items: start;
+}
+.rover-overview h2 {
+  font-family: var(--ff-display);
+  font-size: 1.6rem;
+  color: var(--heading);
+  line-height: 1.2;
+}
+.rover-overview p {
+  color: var(--muted);
+  font-size: 0.97rem;
+  line-height: 1.8;
+}
+
+/* ─── SUB-PROJECT SECTION ────────────────────────── */
+.rover-projects-section {
+  padding: 5rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.rover-projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+/* ─── SUB-PROJECT CARDS ──────────────────────────── */
+.rp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+  opacity: 0;
+  transform: translateY(24px);
+}
+.rp-card.visible {
+  opacity: 1;
+  transform: none;
+}
+.rp-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.rp-card.reverse .rp-image { order: 2; }
+.rp-card.reverse .rp-content { order: 1; }
+
+/* ─── CARD IMAGE ─────────────────────────────────── */
+.rp-image {
+  position: relative;
+  overflow: hidden;
+  min-height: 320px;
+  max-height: 500px;
+  background: var(--surface2);
+}
+.rp-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  object-fit: contain;
+  transition: transform 0.5s var(--ease);
+}
+.rp-card:hover .rp-image img { transform: scale(1.04); }
+.rp-image-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--surface2);
+  position: relative;
+  overflow: hidden;
+}
+.rp-image-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 12px,
+    rgba(74,240,196,0.03) 12px,
+    rgba(74,240,196,0.03) 24px
+  );
+}
+.rp-image-placeholder span {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  position: relative;
+}
+
+/* ─── CARD CONTENT ───────────────────────────────── */
+.rp-content {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+}
+.rp-content-inner { position: relative; }
+.rp-label {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+}
+.rp-title {
+  font-family: var(--ff-display);
+  font-size: 1.6rem;
+  color: var(--heading);
+  line-height: 1.15;
+}
+.rp-desc {
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.8;
+}
+.rp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.rp-tag {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  padding: 0.2rem 0.6rem;
+  background: rgba(74,240,196,0.06);
+  border: 1px solid rgba(74,240,196,0.2);
+  color: var(--accent);
+  border-radius: 2px;
+  letter-spacing: 0.06em;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 900px) {
+  .rover-hero { padding: 0 2rem 3rem; }
+  .rover-hero-inner { padding-top: 6rem; }
+  .rover-overview { padding: 2.5rem 2rem; }
+  .rover-overview-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+  .rover-projects-section { padding: 3.5rem 2rem; }
+  .rp-card { grid-template-columns: 1fr; }
+  .rp-card.reverse .rp-image { order: 0; }
+  .rp-card.reverse .rp-content { order: 0; }
+  .rp-image { min-height: 220px; }
+  .rp-image-placeholder { min-height: 220px; }
+}
