@@ -159,7 +159,7 @@
   opacity: 1;
   transform: none;
 }
-.rp-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.rp-card:hover { transform: translateY(-3px); }
 .rp-card.reverse .rp-image { order: 2; }
 .rp-card.reverse .rp-content { order: 1; }
 
