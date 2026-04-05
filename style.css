@@ -436,6 +436,19 @@ section { padding: 7rem 4rem; max-width: 1200px; margin: 0 auto; }
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
+
+.project-card-nohover {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.25s, transform 0.25s;
+  cursor: default;
+}
+
 .project-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -447,6 +460,7 @@ section { padding: 7rem 4rem; max-width: 1200px; margin: 0 auto; }
   transition: border-color 0.25s, transform 0.25s;
   cursor: default;
 }
+
 .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
 .project-card.featured {
   grid-column: span 2;
