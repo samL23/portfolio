@@ -529,6 +529,22 @@ section { padding: 7rem 4rem; max-width: 1200px; margin: 0 auto; }
     rgba(74,240,196,0.03) 20px
   );
 }
+.project-cta {
+  display: inline-block;
+  margin-top: 1rem;
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  border: 1px solid rgba(74,240,196,0.3);
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  transition: background 0.2s, color 0.2s;
+}
+a.project-card:hover .project-cta {
+  background: var(--accent);
+  color: var(--bg);
+}
 
 /* ─── CONTACT ────────────────────────────────────── */
 #contact {
