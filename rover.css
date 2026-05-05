@@ -8,25 +8,7 @@
   position: relative;
   overflow: hidden;
 }
-.rover-hero-bg {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 60px 60px;
-  opacity: 0.3;
-  mask-image: radial-gradient(ellipse 80% 90% at 40% 60%, black 20%, transparent 100%);
-}
-.rover-hero-glow {
-  position: absolute;
-  width: 600px; height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(74,240,196,0.06) 0%, transparent 70%);
-  top: 30%; left: 30%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
+
 .rover-hero-inner {
   position: relative;
   width: 100%;
@@ -67,11 +49,11 @@
   content: '';
   display: block;
   width: 2rem; height: 1px;
-  background: var(--accent);
+  background: var(--bg);
 }
 .rover-hero-title {
   font-family: var(--ff-display);
-  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-size: clamp(2rem, 3vw, 4.5rem);
   color: var(--heading);
   line-height: 1.05;
   margin-bottom: 1.5rem;
@@ -104,12 +86,11 @@
 }
 
 /* ─── OVERVIEW STRIP ─────────────────────────────── */
+/* REPLACE WITH */
 .rover-overview {
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 3rem 4rem;
-  max-width: 100%;
-  background: var(--surface);
+  background: var(--bg2);
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .rover-overview-inner {
   max-width: 1200px;
@@ -117,7 +98,7 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 4rem;
-  align-items: start;
+ align-items: center;
 }
 .rover-overview h2 {
   font-family: var(--ff-display);
@@ -174,9 +155,9 @@
 .rp-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
   object-fit: contain;
+  padding: 8px;
+  display: block;
   transition: transform 0.5s var(--ease);
 }
 .rp-card:hover .rp-image img { transform: scale(1.04); }
@@ -231,7 +212,7 @@
 .rp-title {
   font-family: var(--ff-display);
   font-size: 1.6rem;
-  color: var(--heading);
+  color: var(--ink);
   line-height: 1.15;
 }
 .rp-desc {

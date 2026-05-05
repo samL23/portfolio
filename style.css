@@ -1,18 +1,31 @@
 /* ─── TOKENS ─────────────────────────────────────── */
 :root {
-  --bg:        #0b0c0f;
   --surface:   #13151a;
   --surface2:  #1c1f27;
   --border:    #242730;
-  --accent:    #4af0c4;
-  --accent2:   #4a90f0;
-  --text:      #e8eaf0;
-  --muted:     #737887;
-  --heading:   #f5f6fa;
+  --muted:     #8490b1;
   --ff-display: 'DM Serif Display', Georgia, serif;
   --ff-sans:   'Syne', sans-serif;
   --ff-mono:   'DM Mono', monospace;
   --ease:      cubic-bezier(.22,1,.36,1);
+
+  --heading:    #57370a;
+  --bg:        #f5f2ed;
+  --bg2:       #ede9e3;
+  --ink:       #dbd6cc;
+  --ink2:      #050505;
+  --ink3:      #8a8680;
+  --rule:      #d4cfc8;
+  --accent:    #c0392b;
+  --accent2:   #8b2219;
+  --white:     #faf8f4;
+
+  --ff-display: 'Playfair Display', Georgia, serif;
+  --ff-body:   'IBM Plex Sans', sans-serif;
+  --ff-mono:   'IBM Plex Mono', monospace;
+
+  --ease: cubic-bezier(.25, 0, .1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
 }
 
 /* ─── RESET ──────────────────────────────────────── */
@@ -54,10 +67,10 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 4rem;
-  background: rgba(11,12,15,0.75);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 3rem;
+  background: rgba(245, 242, 237, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
 }
 .nav-logo {
   font-family: var(--ff-mono);
@@ -348,12 +361,11 @@ section { padding: 7rem 4rem; max-width: 1200px; margin: 0 auto; }
   padding: 1.75rem;
   transition: border-color 0.25s;
 }
-.skill-group:hover { border-color: var(--accent2); }
 .skill-group-title {
   font-family: var(--ff-mono);
   font-size: 0.72rem;
   letter-spacing: 0.15em;
-  color: var(--accent2);
+  color: var(--ink);
   margin-bottom: 1.25rem;
 }
 .skill-tags {
@@ -368,7 +380,7 @@ section { padding: 7rem 4rem; max-width: 1200px; margin: 0 auto; }
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 2px;
-  color: var(--text);
+  color: var(--accent);
   letter-spacing: 0.06em;
 }
 
@@ -424,7 +436,7 @@ section { padding: 7rem 4rem; max-width: 1200px; margin: 0 auto; }
   margin-bottom: 0.75rem;
 }
 .timeline-desc {
-  color: var(--muted);
+  color: var(--ink2);
   font-size: 0.93rem;
   max-width: 580px;
 }
@@ -478,7 +490,7 @@ section { padding: 7rem 4rem; max-width: 1200px; margin: 0 auto; }
 .project-title {
   font-family: var(--ff-display);
   font-size: 1.35rem;
-  color: var(--heading);
+  color: var(--ink);
   line-height: 1.2;
 }
 .project-desc {
